@@ -7,15 +7,25 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 </head>
 <body>
-    <!-- Create an element in the div#root > div#one > p > "This a p tag text!" -->
+    <!-- Create an element in the div#root > div#one > p > "This a p tag text!", "Another Text!" -->
     <div id="root"></div>
+    <!--
+    <div id="root">
+        <div id="one">
+            <p>
+                "This a p tag text!"
+                "Another Text!"
+            </p>
+        </div>
+    </div>
+    -->
 </body>
 <script>
-    // Create an element in the div#root > div#one > p > "This a p tag text!"
+    // Create an element in the div#root > div#one > p > "This a p tag text!", "Another Text!"
     // Note: React.createElement() returns an object of type ReactElement (virtual DOM) which is not rendered yet.
     // The createElement() method passes the element's type, its properties, and its children to create the ReactElement.
     // For example, React.createElement('element name', {"property name": "property value"}, child element 1, child element 2, ...);
-    const p = React.createElement('p', null, 'This a p tag text!');
+    const p = React.createElement('p', null, 'This a p tag text!', 'Another Text!');
     const divOne = React.createElement('div', {"id": "one"}, p);
     const divRoot = document.getElementById('root');
 
