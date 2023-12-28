@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Inject Data in JSX</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script type="text/babel">
+    const user = {
+        name: "John Doe",
+        age: 25
+    };
+
+    const textStyle = {
+        color: "red",
+        fontSize: "20px"
+    };
+
+    // Note: You can use JavaScript expression inside JSX by wrapping it in curly braces ({}).
+
+    // Problem: Where can you use JavaScript expression inside JSX?
+    // Answer: You can use JavaScript expression inside JSX in the
+    // 1. Element properties, this is used to control the element's properties.
+    // 2. Children (node), this is mostly used to render dynamic data.
+
+    // Problem: What can be written inside the curly braces ({})?
+    // Answer: You can write any valid JavaScript expression inside the curly braces ({}).
+    // JavaScript's expression is a valid JavaScript code that can be evaluated to a value.
+    // Is expression: Variable, Constant, String, Array, Object, Function, Function call, Calculation, etc.
+    // Not expression: If statement, For loop, While loop, Switch case, Declaration, etc.
+
+    // Example:
+    const fullElementJsx = (
+        <div id="one">
+            <h1>Welcome, {user.name}</h1>
+            <p>You are {user.age} years old.</p>
+
+            {/* Note: It can render integer */}
+            <p>{123}</p>
+
+            {/* Note: It can render string, too */}
+            <p>{'Text'}</p>
+
+            {/* Note: It can render array, but it will treat each element as a child node to render. */}
+            <p>{[4, 5, 6]}</p>
+
+            {/* Note: It can render NaN and Infinity */}
+            <p>{NaN}, {Infinity}</p>
+
+            {/* Note: It will not directly render boolean, undefined, and null. */}
+            <p>"{true}{undefined}{null}"</p>
+
+            {/* Note: It could not directly render an object, it will raise an Error. */}
+            {/* <p>{user}</p> */}
+
+            {/* Note: It can render an object if you convert it to a string. */}
+            <p>{JSON.stringify(user)}</p>
+
+            {/* Note: It can also use an object at property */}
+            <p style={textStyle}>This is a text with style.</p>
+
+            {/* Note: It could not directly render a function, it will raise a Warning. */}
+            {/* <p>{() => {}}</p> */}
+
+            {/* Note: It will render the function return value */}
+            <p>{(() => {return "This is a function."})()}</p>
+
+            {/* Note: It makes we can directly declare a function inside the curly braces.
+                      So the function is mostly used to declare an event handler. */}
+            <button onClick={() => {alert("This is a function.")}}>Click Me!</button>
+        </div>
+    );
+
+    // Render the element in the div#root
+    const divRoot = ReactDOM.createRoot(document.getElementById('root'));
+    divRoot.render(fullElementJsx);
+</script>
+</html>

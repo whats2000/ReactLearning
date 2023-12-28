@@ -29,24 +29,6 @@
 
 這個文件提供了使用 JSX 與 React 的基本示例，並展示了如何在瀏覽器中使用它們。
 
-### HTML 結構
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Introduction to JSX</title>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-</head>
-<body>
-    <div id="root"></div>
-</body>
-</html>
-```
-
 ### JSX 說明
 
 - JSX 是 JavaScript 的語法擴展，類似於模板語言，但擁有 JavaScript 的全部功能。
@@ -54,23 +36,27 @@
 - 使用 React 時，JSX 並不是必需的，它只是寫 React 應用的一個方便工具。
 - 若要在瀏覽器中使用 JSX，需要將 script 標籤的類型設為 `text/babel`。
 
-### React 和 JSX 代碼
+# Class 3 — Dynamic Inject Data in JSX
+- - -
 
-```javascript
-<script type="text/babel">
-    const fullElementJsx = (
-        <div id="one">
-            <p>
-                {"This a p tag text!"}
-                {"Another Text!"}
-            </p>
-        </div>
-    );
+## 功能重點
+- **JavaScript 表達式在 JSX 中的應用**：可以在大括號 `{}` 中使用 JavaScript 表達式。
+- **表達式的使用場景**：
+    - 元素屬性：控制元素的屬性。
+    - 子節點：渲染動態數據。
 
-    // Render the element in the div#root
-    const divRoot = ReactDOM.createRoot(document.getElementById('root'));
-    divRoot.render(fullElementJsx);
-</script>
-```
+## 表達式的規則
+- **有效的表達式**：變量、常量、字符串、數組、對象、函數、函數調用、計算等。
+- **不是表達式**：If 語句、For 循環、While 循環、Switch 語句、聲明等。
 
-在這個示例中，我們創建了一個包含 `<div>` 和 `<p>` 的 JSX 元素，並使用 `ReactDOM.createRoot` 方法將其渲染到具有 `id="root"` 的 div 元素中。
+## 示例和注意事項
+- **顯示用戶信息**：可以顯示用戶的名字和年齡。
+- **渲染不同類型的數據**：
+    - 整數、字符串、數組、`NaN`、`Infinity`。
+    - 不會直接渲染布爾值、`undefined`、`null`。
+    - 不能直接渲染對象（但可以轉換為字符串渲染）。
+- **樣式設置**：使用對象來應用 CSS 樣式。
+- **函數的應用**：
+    - 不會直接渲染函數（會引發警告）。
+    - 會渲染函數的返回值。
+    - 可以直接在大括號內聲明函數，通常用於事件處理器。
