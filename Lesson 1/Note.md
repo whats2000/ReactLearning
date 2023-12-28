@@ -1,4 +1,4 @@
-# Class 1
+# Class 1 — Welcome to React
 - - -
 ## `document.createElement` 與 `React.createElement` 的差異
 
