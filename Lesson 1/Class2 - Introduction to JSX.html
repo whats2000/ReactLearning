@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Introduction to JSX</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- You need to put the CDN link of Babel to use JSX. -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <!-- Create an element in the div#root > div#one > p > "This a p tag text!", "Another Text!" -->
+    <div id="root"></div>
+    <!--
+    <div id="root">
+        <div id="one">
+            <p>
+                "This a p tag text!"
+                "Another Text!"
+            </p>
+        </div>
+    </div>
+    -->
+</body>
+<!-- JSX is a syntax extension to JavaScript. It is similar to a template language, but it has full power of JavaScript. -->
+<!-- JSX full name is JavaScript XML. This is similar to React.createElement() but with a different syntax. -->
+<!-- JSX is not a requirement for using React. It is only a convenient tool for writing React applications. -->
+<!-- You need to change the type attribute of the script tag to text/babel to use JSX. -->
+<script type="text/babel">
+    const fullElementJsx = (
+        <div id="one">
+            <p>
+                {"This a p tag text!"}
+                {"Another Text!"}
+            </p>
+        </div>
+    );
+
+    // Render the element in the div#root
+    const divRoot = ReactDOM.createRoot(document.getElementById('root'));
+    divRoot.render(fullElementJsx);
+</script>
+</html>

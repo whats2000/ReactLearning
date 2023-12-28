@@ -22,3 +22,55 @@
 ### 總結
 
 總的來說，`document.createElement` 直接在瀏覽器的 DOM 中創建元素，而 `React.createElement` 則是在 React 的虛擬 DOM 環境中創建元素。這使得 React 可以提供更有效的更新和渲染方法。
+
+# Class 2 — Introduction to JSX
+- - -
+## JSX 簡介
+
+這個文件提供了使用 JSX 與 React 的基本示例，並展示了如何在瀏覽器中使用它們。
+
+### HTML 結構
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Introduction to JSX</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
+```
+
+### JSX 說明
+
+- JSX 是 JavaScript 的語法擴展，類似於模板語言，但擁有 JavaScript 的全部功能。
+- 它的全名是 JavaScript XML，類似於 `React.createElement()`，但語法不同。
+- 使用 React 時，JSX 並不是必需的，它只是寫 React 應用的一個方便工具。
+- 若要在瀏覽器中使用 JSX，需要將 script 標籤的類型設為 `text/babel`。
+
+### React 和 JSX 代碼
+
+```javascript
+<script type="text/babel">
+    const fullElementJsx = (
+        <div id="one">
+            <p>
+                {"This a p tag text!"}
+                {"Another Text!"}
+            </p>
+        </div>
+    );
+
+    // Render the element in the div#root
+    const divRoot = ReactDOM.createRoot(document.getElementById('root'));
+    divRoot.render(fullElementJsx);
+</script>
+```
+
+在這個示例中，我們創建了一個包含 `<div>` 和 `<p>` 的 JSX 元素，並使用 `ReactDOM.createRoot` 方法將其渲染到具有 `id="root"` 的 div 元素中。
