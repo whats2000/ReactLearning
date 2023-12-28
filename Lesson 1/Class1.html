@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Class 1</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+<body>
+    <!-- Create an element in the div#root > div#one > p > "This a p tag text!" -->
+    <div id="root"></div>
+</body>
+<script>
+    // Create an element in the div#root > div#one > p > "This a p tag text!"
+    // Note: React.createElement() returns an object of type ReactElement (virtual DOM) which is not rendered yet.
+    // The createElement() method passes the element's type, its properties, and its children to create the ReactElement.
+    // For example, React.createElement('element name', {"property name": "property value"}, child element 1, child element 2, ...);
+    const p = React.createElement('p', null, 'This a p tag text!');
+    const divOne = React.createElement('div', {"id": "one"}, p);
+    const divRoot = document.getElementById('root');
+
+    // Render the element in the div#root
+    // Note: ReactDOM.render() renders the ReactElement (virtual DOM) into the real DOM. Why not use document.createElement()?
+    // Because ReactElement is a virtual DOM which is a lightweight object, and it is faster to create and update than the real DOM.
+    ReactDOM.render(divOne, divRoot);
+</script>
+</html>
