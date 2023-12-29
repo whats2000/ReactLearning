@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Style in JSX</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        .box {
+            border: 1px solid black;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script type="text/babel">
+    // Note 1: We don't use the "class=" attribute in JSX because it is a reserved keyword in JavaScript.
+    // Instead, we use the "className=" attribute in JSX to set the class attribute in HTML.
+    // Note 2: The style attribute in JSX is an object with camelCase properties instead of lower-case properties.
+    // Note 3: If the unit is omitted, "px" will be added after numeric values.
+    // Note 4: If the value in different units, you need to use string.
+    const styledDiv = (
+        // This same as <div id="one" class="box" style="color: red; background-color: yellow; width: 300px; font-size: 0.5rem;">
+        <div id="one" className="box" style={{color: "red", backgroundColor: "yellow", width: 300, fontSize: "0.5rem"}}>
+            <h1>Users</h1>
+            <ul>
+                <li>John Doe - 18</li>
+                <li>Jane Doe - 16</li>
+                <li>John Smith - 20</li>
+            </ul>
+        </div>
+    );
+
+    const divRoot = ReactDOM.createRoot(document.getElementById('root'));
+    divRoot.render(styledDiv);
+</script>
+</html>

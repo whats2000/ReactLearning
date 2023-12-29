@@ -32,3 +32,21 @@
 - 列表渲染是 React 中的一個常見需求，主要通過 `.map()` 方法實現。
 - 為每個渲染的列表項目提供一個唯一的 `key` 是重要的最佳實踐。
 - 正確使用 `key` 可以提高列表渲染的效率，因為 React 可以更精準地追蹤每個項目的變化。
+
+# Class 3 — Add Style in JSX
+## 在 JSX 中添加樣式的注意事項
+- **使用 `className` 替代 `class`**：
+  - 在 JSX 中，不能使用 `class` 屬性，因為它在 JavaScript 中是保留關鍵字。
+  - 應使用 `className` 屬性來設置 HTML 中的類。
+- **`style` 屬性的使用**：
+  - 在 JSX 中，`style` 屬性是一個對象，其屬性使用駝峰命名法（camelCase）。
+  - 例如：`style={{color: "red", backgroundColor: "yellow"}}`。
+- **單位處理**：
+  - 如果省略單位，則數字值後會自動添加 "px"。
+  - 對於不同單位的值，應使用字符串。
+  - 例如：`width: 300` 會被解釋為 `width: "300px"`，而 `fontSize: "0.5rem"` 保持原樣。
+
+## 學習重點
+- 正確使用 `className` 和 `style` 屬性對元素添加 CSS 樣式。
+- 了解 JSX 中樣式相關屬性的特殊處理方式，如駝峰命名法和單位處理。
+- 在 JSX 中處理樣式時，需要注意 JavaScript 和 CSS 之間的語法差異。
