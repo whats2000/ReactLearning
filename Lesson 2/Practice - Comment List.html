@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comment List</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<!--
+Request: Create a comment list with the following requirements:
+- The comment list is a div with id="comment-list".
+- if the comment list is empty, the comment list should display "No comment yet!" in "h1" tag.
+- if the comment list is not empty, the comment list should use "li" style to display the comment list and contain "a" tag link to "#name".
+    - name: the username of the comment, use "h3" tag to display.
+    - comment: the comment, use "p" tag to display.
+- Add a click event handler to the "a" tag, when the user clicks the "a" tag. And print the innerText.
+- Add style to have better visual.
+-->
+<script type="text/babel">
+    // TODO: Write your code here.
+    const commentListStyle = {
+        maxWidth: '600px',
+        margin: '0 auto',
+        padding: '20px',
+        backgroundColor: '#f9f9f9',
+        borderRadius: '8px',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+    };
+
+    const commentListTitleStyle = {
+        color: '#333',
+        textAlign: 'center'
+    };
+
+    const commentListUlStyle = {
+        listStyleType: 'none',
+        padding: '0'
+    };
+
+    const commentListItemStyle = {
+        borderBottom: '1px solid #ddd',
+        padding: '10px 0'
+    };
+
+    const commentListItemLastChildStyle = {
+        borderBottom: 'none'
+    };
+
+    const commentListLinkStyle = {
+        textDecoration: 'none',
+        color: '#2a6496',
+        cursor: 'pointer'
+    };
+
+    const commentListLinkHoverStyle = { // Note: Hover styles cannot be directly applied in inline styles
+        textDecoration: 'underline'
+    };
+
+    const commentListNameStyle = {
+        margin: '0 0 5px 0',
+        color: '#333'
+    };
+
+    const commentListCommentStyle = {
+        margin: '0',
+        color: '#666'
+    };
+
+    // Example data fetch from the server.
+    const list = [
+        {
+            id: 1,
+            name: "John Doe",
+            comment: "Hello World!"
+        },
+        {
+            id: 2,
+            name: "William Smith",
+            comment: "Hi!"
+        },
+        {
+            id: 3,
+            name: "James Bond",
+            comment: "How are you?"
+        }
+    ];
+
+    const commentList = (
+        <div id="comment-list" style={commentListStyle}>
+            {list.length === 0 ? <h1 style={commentListTitleStyle}>No comment yet!</h1> :
+                <ul style={commentListUlStyle}>
+                    {list.map(item => (
+                        <li key={item.id} style={commentListItemStyle}>
+                            <a href={`#${item.name}`} style={commentListLinkStyle} onClick={(event) => {
+                                event.preventDefault();
+                                console.log(event.target['innerText']);
+                            }}>
+                                <h3 style={commentListNameStyle}>{item.name}</h3>
+                                <p style={commentListCommentStyle}>{item.comment}</p>
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            }
+        </div>
+    );
+
+    const divRoot = ReactDOM.createRoot(document.getElementById('root'));
+    divRoot.render(commentList);
+</script>
+</html>
