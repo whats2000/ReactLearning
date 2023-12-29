@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Binding Event in JSX</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        .box {
+            border: 1px solid black;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script type="text/babel">
+    const styledDiv = (
+        <div id="one" className="box"
+             style={{color: "red", backgroundColor: "yellow", width: 300, fontSize: "0.5rem"}}
+             onClick={(event) => {
+                 // Note: The event is not a typical DOM event, it is a React SyntheticBaseEvent.
+                 // Synthetic Event is a cross-browser wrapper around the browser's native event.
+                 // But we can use it like a normal DOM event.
+                 console.log("Mouse Click!", event);
+
+                 // Note: The event handler we define imn React is to the real event handler.
+                 // Instead, the React will use "apply" to call, so the "this" will be pointed to "Window" object?
+                 // But the code will be compiled to "use strict" mode by babel, that's why the "this" will be pointed to "undefined".
+                 console.log(this);
+             }}
+             onMouseEnter={(event) => console.log("Mouse Enter!", event)}>
+
+            <h1>Users</h1>
+            <ul>
+                <li>John Doe - 18</li>
+                <li>Jane Doe - 16</li>
+                <li>John Smith - 20</li>
+            </ul>
+        </div>
+    );
+
+    const divRoot = ReactDOM.createRoot(document.getElementById('root'));
+    divRoot.render(styledDiv);
+</script>
+</html>
