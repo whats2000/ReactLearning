@@ -66,6 +66,7 @@ class WelcomeClass extends React.Component {
 ## 2. React 組件的其他組件
 參考 `src/components/`：
 - 一般來說，React 組件的其他組件，都會放在 `src/components/` 資料夾中。
+- 每個組件都是務必放在一個獨立的檔案。
 - 檔案類型可命名成`.js`，也可命名為 `.jsx`。有些公司會規定組件檔案的類型必須是 `.jsx`。因此，建議組件檔案的類型都命名為 `.jsx`。
 - 這邊用類別型組件來定義 `Header` 組件來示範。
 - 記得要引入 `React` 模組。
