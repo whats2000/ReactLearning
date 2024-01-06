@@ -7,7 +7,7 @@ class Counter5 extends Component {
         this.state = {count: 0};
 
         // Solution 1: Bind the function in the constructor.
-        this.handleClickSolution1 = () => {
+        this.handleClickSolution1a = () => {
             this.setState({
                 count: this.state.count + 1
             });
@@ -17,8 +17,15 @@ class Counter5 extends Component {
         this.handleClickSolution4 = this.handleClickSolution4.bind(this);
     }
 
+    // Solution 1b: Define the arrow function in the constructor. But with simpler syntax.
+    handleClickSolution1b = () => {
+        this.setState({
+            count: this.state.count + 1
+        });
+    }
+
     // Solution 2: Use arrow function.
-    handleClickSolution2 = () => {
+    handleClickSolution2()  {
         this.setState({
             count: this.state.count + 1
         });
@@ -49,25 +56,29 @@ class Counter5 extends Component {
                 <h1>Counter 5</h1>
                 <p>Count: {this.state.count}</p>
 
-                {/* Solution 1: Define the arrow function in the constructor. */}
-                {/* This work but will waste memory. */}
-                {/* As every instance of the component will have its own function. */}
-                <button onClick={this.handleClickSolution1}>Solution 1</button>
-
-                {/* Solution 2a: Use arrow method. */}
+                {/* Solution 1a: Define the arrow function in the constructor. */}
                 {/* IMPORTANT: Do not use `()` when passing the function to `onClick`. */}
                 {/*            If you use `()`, the function will be called immediately. */}
                 {/*            Which mean it will take the return value of the function as the callback. */}
                 {/*            The method can only be arrow function. */}
-                <button onClick={this.handleClickSolution2}>Solution 2a</button>
+                {/* This work but will waste memory. */}
+                {/* As every instance of the component will have its own function. */}
+                <button onClick={this.handleClickSolution1a}>Solution 1a</button>
 
-                {/* Solution 2b: Use arrow method. */}
+                {/* Solution 1b: Define the arrow function in the constructor. But with simpler syntax. */}
+                {/* We can define the arrow function outside the constructor. */}
+                {/* Though it is not the most efficient way. */}
+                {/* The solution is most common used. */}
+                <button onClick={this.handleClickSolution1b}>Solution 1b</button>
+
+                {/* Solution 2: Use arrow method. */}
                 {/* IMPORTANT: If you want to pass the function with `()`, you need to wrap it with another function. */}
                 {/*            Which function will be call by apply with React? */}
                 {/*            The outer function. But the inner function will be called when the button is clicked. */}
                 {/*            So the inner function will be called when the button is clicked. */}
-                {/*            The method can be a normal function or arrow function. */}
-                <button onClick={() => this.handleClickSolution2()}>Solution 2b</button>
+                {/* This is the most efficient way. */}
+                {/* Because the method is only stored in the prototype of the class. */}
+                <button onClick={() => this.handleClickSolution2()}>Solution 2</button>
 
                 {/* Solution 3: Define the function in the render function. */}
                 {/* This is worse than any other solution. */}
@@ -83,9 +94,8 @@ class Counter5 extends Component {
             </div>
         )
         // Question: What will the best solution?
-        // Answer: Solution 2a.
-        // It is the most efficient way.
-        // And it is good to read.
+        // Answer: Solution 1b.
+        // This is the most common used.
     }
 }
 
