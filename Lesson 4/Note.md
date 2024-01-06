@@ -201,8 +201,8 @@ class ComponentName extends React.Component {
                 <h1>{this.state.attributeName1} {this.state.attributeName2}</h1>
                 <button onClick={() => {
                     this.setState({
-                      attributeName1: this.state.attributeName1 + 1, 
-                      attributeName2: this.state.attributeName2 + 1
+                        attributeName1: this.state.attributeName1 + 1,
+                        attributeName2: this.state.attributeName2 + 1
                     });
                     this.setState({attributeName1: this.state.attributeName1 + 2});
                     this.setState({attributeName1: this.state.attributeName1 + 3});
@@ -235,7 +235,7 @@ class ComponentName extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { attributeName1: 0 };
+        this.state = {attributeName1: 0};
     }
 
     render() {
@@ -244,9 +244,14 @@ class ComponentName extends React.Component {
                 <h1>{this.state.attributeName1}</h1>
                 <button onClick={() => {
                     this.setState({attributeName1: this.state.attributeName1 + 1});
-                    this.setState((state) => { return {attributeName1: state.attributeName1 + 2}; });
-                    this.setState((state) => { return {attributeName1: state.attributeName1 + 3}; });
-                }}>Increment</button>
+                    this.setState((state) => {
+                        return {attributeName1: state.attributeName1 + 2};
+                    });
+                    this.setState((state) => {
+                        return {attributeName1: state.attributeName1 + 3};
+                    });
+                }}>Increment
+                </button>
             </div>
         )
     }
@@ -266,7 +271,7 @@ class ComponentName extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { attributeName1: 0 };
+        this.state = {attributeName1: 0};
     }
 
     render() {
@@ -274,15 +279,16 @@ class ComponentName extends React.Component {
             <div>
                 <h1 id="target">{this.state.attributeName1}</h1>
                 <button onClick={() => {
-                  this.setState({attributeName1: this.state.attributeName1 + 1});
-                  this.setState((state) => {
-                    console.log('First state value: ', state.attributeName1);
-                    console.log('First real dom value: ', document.getElementById('target').textContent);
-                  }, () => {
-                    console.log('Second state value: ', this.state.attributeName1);
-                    console.log('Second real dom value: ', document.getElementById('target').textContent);
-                  });
-                }}>Increment</button>
+                    this.setState({attributeName1: this.state.attributeName1 + 1});
+                    this.setState((state) => {
+                        console.log('First state value: ', state.attributeName1);
+                        console.log('First real dom value: ', document.getElementById('target').textContent);
+                    }, () => {
+                        console.log('Second state value: ', this.state.attributeName1);
+                        console.log('Second real dom value: ', document.getElementById('target').textContent);
+                    });
+                }}>Increment
+                </button>
             </div>
         )
     }
@@ -296,34 +302,78 @@ class ComponentName extends React.Component {
 - Second state value: 1
 - Second real dom value: 1
 - 原因：`this.setState()`方法的有兩個參數，若都是函數，
-  - 第一個會在更新狀態後，依序調用函數，並且傳遞最新的狀態值。
-  - 第二個會在更新狀態後，並且重新渲染後，調用函數，並且傳遞最新的狀態值。
+    - 第一個會在更新狀態後，依序調用函數，並且傳遞最新的狀態值。
+    - 第二個會在更新狀態後，並且重新渲染後，調用函數，並且傳遞最新的狀態值。
 
 ## 總結
-- `this.setState()`多次調用的結果：當`this.setState()`多次調用時，React會將這些調用的結果合併，然後一次性更新狀態。這是React的一種優化，目的是提高效能。如果有多個不同的狀態屬性更新，只會觸發一次重新渲染。即使是同一個狀態屬性，也會合併更新。
+
+- `this.setState()`多次調用的結果：當`this.setState()`
+  多次調用時，React會將這些調用的結果合併，然後一次性更新狀態。這是React的一種優化，目的是提高效能。如果有多個不同的狀態屬性更新，只會觸發一次重新渲染。即使是同一個狀態屬性，也會合併更新。
 - `this.setState()`使用函數的方式：當`this.setState()`使用函數的方式時，React會在更新狀態後再依序調用函數。因此，每次調用函數時，都會使用最新的狀態值。
-- `this.setState()`的兩個參數：`this.setState()`方法有兩個參數，如果都是函數，第一個會在更新狀態後，依序調用函數，並傳遞最新的狀態值。第二個會在更新狀態後，並重新渲染後，調用函數，並傳遞最新的狀態值。
+- `this.setState()`的兩個參數：`this.setState()`
+  方法有兩個參數，如果都是函數，第一個會在更新狀態後，依序調用函數，並傳遞最新的狀態值。第二個會在更新狀態後，並重新渲染後，調用函數，並傳遞最新的狀態值。
 
 # Class 4b More About React Component `this`
 
 ## 1. 組件函數中的`this`指向
+
 Question 1: 為何我們設置event handler時，要使用箭頭函數？
 
 - 答案：因為在 React 組件中，函數中的`this`指向是`undefined`。這在 lesson 2 class 4 中有提到。(程式第33行)
 - 參考`src/components/Counter4.jsx`
-- 因此，如果要使用`this`，必須使用箭頭函數。因為箭頭函數中的`this`會指向外層的`this`。在例子中，就是指`render()`方法中的`this`。
+- 因此，如果要使用`this`，必須使用箭頭函數。因為箭頭函數中的`this`會指向外層的`this`。在例子中，就是指`render()`
+  方法中的`this`。
 
-Question 2: 我們要如何把函數獨立出來，使之能更好維護？
+Question 2: 我們要如何把事件處理函數與JSX獨立出來，使之能更好維護？
 
-- 答案：不論是在`constructor()`中，或是在操作定義，建議用箭頭函數。因為箭頭函數中的`this`會指向外層的`this`。在例子中，就是指組件類別中的`this`。
+- 答案： 以下是四種方法
 - 參考`src/components/Counter5.jsx`
-- 這樣的好處是，可以把函數獨立出來，使之能更好維護。
-- 建議寫在操作定義中，因為這樣可以讓`render()`方法更簡潔。且具有更好的可讀性、效能。
-- 如果非箭頭操作，則必須在外部用額外的箭頭函數包裹一層。(範例 2b)
-- 不建議在`render()`方法中定義箭頭函數，因為每次渲染都會產生新的函數，會影響效能。
+
+### 方法一：在 `constructor()` 中定義箭頭函數
+
+- 直接將箭頭函數定義在 `constructor()` 中。
+- 優點: 很好理解
+- 缺點: 每次實例組件時，都會創建一個新的函數，會影響效能。
+
+### 方法二： 定義操作當作事件處理函數
+
+- 該方法有兩種寫法
+    - 第一種寫法：在定義操作時，使用箭頭函數，則在使用時，不需要再使用箭頭函數包裹一層。當然也可以包裹一層 (不過沒有必要)。
+    - 第二種寫法：在定義操作時，使用一般函數，則在使用時，需要再使用箭頭函數包裹一層。
+- 優點: 效能最好，只需保留原型上的操作函數即可。
+- 缺點: 暫時想不到。
+
+### ~~方法三：在 `render()` 中定義箭頭函數~~
+
+- 直接將箭頭函數定義在 `render()` 中。
+- 優點: 很好理解。
+- 缺點: 每次渲染都會產生新的函數，會嚴重影響效能。故 **不建議使用**。
+
+### 方法四：在`constructor()`中使用`bind()`方法
+
+- 在`constructor()`中使用`bind()`方法，綁定一般操作與`this`。
+- 優點: 比方法三好一點，因為只會在實例化時，產生一次新的函數。
+- 缺點: 在每個實例中都會複製一份函數，會影響效能。並且比較難理解。
+- 以下是解釋其邏輯
+  #### 第一步 類別和構造函數：
+    - 在類別定義時，方法（包括構造函數 `constructor()`）在記憶體中並不是立即“定義好”的，而是當類別被實例化（即使用 `new`
+      關鍵字創建一個新的實例）時，這些方法才會與該實例相關聯。
+    - 方法（非靜態方法）通常不是在每個實例中單獨存儲的，而是存在於類別的原型上。這意味著所有實例共享相同的方法，而不是每個實例都有自己的方法副本。
+  #### 第二步 使用 `new` 創建實例：
+    - 當使用 `new` 創建一個類別的新實例時，JavaScript 首先創建一個新的對象，然後將這個類別的原型鏈接到這個對象上。
+    - 構造函數會被調用，`this` 在構造函數的上下文中指向新創建的對象。
+  #### 第三步 方法和 `bind()`：
+    - 如果在構造函數中使用了 `bind(this)`，這會為被綁定的方法創建一個新的函數實例，並將 `this` 固定為該類別實例。
+    - 這個過程實際上是創建了一個新的函數對象，這個新函數對象有一個固定的 `this` 指向，指向該類別的實例。
+    - 這個新創建的函數對象（經過 `bind` 處理的）將被賦值給類別實例的相應屬性，從而使得在實例方法中的 `this`
+            正確指向該實例。
 
 ## 總結
-- 組件函數中的`this`指向：在 React 組件中，函數中的`this`指向是`undefined`。因此，如果要使用`this`，必須使用箭頭函數。因為箭頭函數中的`this`會指向外層的`this`。在例子中，就是指`render()`方法中的`this` (組件類別中的`this`)。
+- 組件函數中的`this`指向：在 React 組件中，函數中的`this`指向是`undefined`。因此，如果要使用`this`
+  ，必須使用箭頭函數。因為箭頭函數中的`this`會指向外層的`this`。在例子中，就是指`render()`方法中的`this` (
+  組件類別中的`this`)。
 - 為了把函數獨立出來，使之能更好維護，建議在操作定義中，使用箭頭操作。
-- 如果非箭頭操作，則必須在外部用額外的箭頭函數包裹一層。
-- 不建議在`render()`方法中定義箭頭函數，因為每次渲染都會產生新的函數，會影響效能。
+- 如果非箭頭函數操作，則必須在外部用額外的箭頭函數包裹一層或在`constructor()`中使用`bind()`方法。
+- 不建議在`render()`方法中定義箭頭函數，因為每次渲染都會產生新的函數，會嚴重影響效能。
+- 可以使用`bind()`方法
+- 使用方法二：定義操作當作事件處理函數，並使用箭頭函數操作，是最好的方法。

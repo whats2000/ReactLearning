@@ -12,10 +12,20 @@ class Counter5 extends Component {
                 count: this.state.count + 1
             });
         }
+
+        // Solution 4: Use `bind`
+        this.handleClickSolution4 = this.handleClickSolution4.bind(this);
     }
 
     // Solution 2: Use arrow function.
     handleClickSolution2 = () => {
+        this.setState({
+            count: this.state.count + 1
+        });
+    }
+
+    // Solution 4: Use `bind` even the function is not arrow function.
+    handleClickSolution4() {
         this.setState({
             count: this.state.count + 1
         });
@@ -39,8 +49,9 @@ class Counter5 extends Component {
                 <h1>Counter 5</h1>
                 <p>Count: {this.state.count}</p>
 
-                {/* Solution 1: Bind the function in the constructor. */}
-                {/* This work and it is efficient. But it is not a good practice. */}
+                {/* Solution 1: Define the arrow function in the constructor. */}
+                {/* This work but will waste memory. */}
+                {/* As every instance of the component will have its own function. */}
                 <button onClick={this.handleClickSolution1}>Solution 1</button>
 
                 {/* Solution 2a: Use arrow method. */}
@@ -59,11 +70,22 @@ class Counter5 extends Component {
                 <button onClick={() => this.handleClickSolution2()}>Solution 2b</button>
 
                 {/* Solution 3: Define the function in the render function. */}
+                {/* This is worse than any other solution. */}
+                {/* Note: We not suggest that you define the function inside the render function. */}
                 <button onClick={handleClickSolution3}>Solution 3</button>
+
+                {/* Solution 4: Use `bind` */}
+                {/* The method can be a normal function or arrow function. */}
+                {/* This is a traditional way to bind the function. */}
+                {/* This is a little strange to understand. */}
+                {/* And it still copies the method for each instance. */}
+                <button onClick={this.handleClickSolution4}>Solution 4</button>
             </div>
         )
         // Question: What will the best solution?
-        // Answer: Solution 2a. Because it is the most efficient one.
+        // Answer: Solution 2a.
+        // It is the most efficient way.
+        // And it is good to read.
     }
 }
 
