@@ -167,9 +167,163 @@ class ComponentName extends React.Component {
 ```
 
 ## 總結
+
 - 與頁面渲染有關的數據，都應該定義在組件的狀態中。
 - React 組件的狀態定義，必須使用名稱是`this.state`的屬性。並且其值是一個物件。
-- React 組件的狀態更新，必須使用名稱是`this.setState()`的方法。並且其參數是一個物件，該物件的屬性名稱，必須是`this.state`的宣告屬性名稱。
+- React 組件的狀態更新，必須使用名稱是`this.setState()`的方法。並且其參數是一個物件，該物件的屬性名稱，必須是`this.state`
+  的宣告屬性名稱。
 - `this.setState()`方法是異步的，因此，如果要獲取更新後的狀態，必須在第二個參數中，使用回調函數來獲取。
 - `this.setState()`方法傳遞是賦予新的值，更改值不建議使用`++`或`--`，因為可能會造成不可預期的結果。
 
+# Class 4a More About React Component State
+
+- 這邊會介紹更多關於 React 組件狀態的知識。
+- AKA 公司面試題型。
+
+## 1. `this.setState()`多次調用的結果 ?
+
+Question 1: `this.setState()`以下程式碼點擊一次按鈕，`h1`標籤中的數字會是多少？
+
+```jsx
+class ComponentName extends React.Component {
+    // Init this.state
+    constructor(props) {
+        super(props);
+        this.state = {
+            attributeName1: 0,
+            attributeName2: 0,
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>{this.state.attributeName1} {this.state.attributeName2}</h1>
+                <button onClick={() => {
+                    this.setState({
+                      attributeName1: this.state.attributeName1 + 1, 
+                      attributeName2: this.state.attributeName2 + 1
+                    });
+                    this.setState({attributeName1: this.state.attributeName1 + 2});
+                    this.setState({attributeName1: this.state.attributeName1 + 3});
+                }}>+
+                </button>
+            </div>
+        );
+    }
+}
+```
+
+- 答案：3 1
+- 參考`src/components/Counter1.jsx`
+- 原因：當`this.setState()`多次調用設置物件時，React 會把多次調用的結果合併起來，然後再一次性的更新狀態。
+- 這是 React 的一個優化，目的是為了提高效能。目的是當有多個不同狀態屬性更新時，只會觸發一次重新渲染。既使是同一個狀態屬性，也會合併更新。
+- 因此實現該功能是先用合併(merge)的方式。因為物件不能有多個相同的屬性名稱，所以合併後，同一個屬性名稱的值，會是最後一次調用的結果。
+- 上方合併後等同於：
+
+```jsx
+this.setState({
+    attributeName1: this.state.attributeName1 + 3,
+    attributeName2: this.state.attributeName2 + 1
+});
+```
+
+Question 2: `this.setState()`以下程式碼點擊一次按鈕，`h1`標籤中的數字會是多少？
+
+```jsx
+class ComponentName extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = { attributeName1: 0 };
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>{this.state.attributeName1}</h1>
+                <button onClick={() => {
+                    this.setState({attributeName1: this.state.attributeName1 + 1});
+                    this.setState((state) => { return {attributeName1: state.attributeName1 + 2}; });
+                    this.setState((state) => { return {attributeName1: state.attributeName1 + 3}; });
+                }}>Increment</button>
+            </div>
+        )
+    }
+}
+```
+
+- 答案：6
+- 參考`src/components/Counter2.jsx`
+- 原因：當`this.setState()`是使用函數的方式時，React 會在更新狀態後再依序調用函數。因此，每次調用函數時，都會使用最新的狀態值。
+
+## 2. `this.setState()`的兩個參數
+
+Question 1: 下方程式碼`console.log`的結果是什麼？
+
+```jsx
+class ComponentName extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = { attributeName1: 0 };
+    }
+
+    render() {
+        return (
+            <div>
+                <h1 id="target">{this.state.attributeName1}</h1>
+                <button onClick={() => {
+                  this.setState({attributeName1: this.state.attributeName1 + 1});
+                  this.setState((state) => {
+                    console.log('First state value: ', state.attributeName1);
+                    console.log('First real dom value: ', document.getElementById('target').textContent);
+                  }, () => {
+                    console.log('Second state value: ', this.state.attributeName1);
+                    console.log('Second real dom value: ', document.getElementById('target').textContent);
+                  });
+                }}>Increment</button>
+            </div>
+        )
+    }
+}
+```
+
+- 答案：
+- 參考`src/components/Counter3.jsx`
+- First state value: 1
+- First real dom value: 0
+- Second state value: 1
+- Second real dom value: 1
+- 原因：`this.setState()`方法的有兩個參數，若都是函數，
+  - 第一個會在更新狀態後，依序調用函數，並且傳遞最新的狀態值。
+  - 第二個會在更新狀態後，並且重新渲染後，調用函數，並且傳遞最新的狀態值。
+
+## 總結
+- `this.setState()`多次調用的結果：當`this.setState()`多次調用時，React會將這些調用的結果合併，然後一次性更新狀態。這是React的一種優化，目的是提高效能。如果有多個不同的狀態屬性更新，只會觸發一次重新渲染。即使是同一個狀態屬性，也會合併更新。
+- `this.setState()`使用函數的方式：當`this.setState()`使用函數的方式時，React會在更新狀態後再依序調用函數。因此，每次調用函數時，都會使用最新的狀態值。
+- `this.setState()`的兩個參數：`this.setState()`方法有兩個參數，如果都是函數，第一個會在更新狀態後，依序調用函數，並傳遞最新的狀態值。第二個會在更新狀態後，並重新渲染後，調用函數，並傳遞最新的狀態值。
+
+# Class 4b More About React Component `this`
+
+## 1. 組件函數中的`this`指向
+Question 1: 為何我們設置event handler時，要使用箭頭函數？
+
+- 答案：因為在 React 組件中，函數中的`this`指向是`undefined`。這在 lesson 2 class 4 中有提到。(程式第33行)
+- 參考`src/components/Counter4.jsx`
+- 因此，如果要使用`this`，必須使用箭頭函數。因為箭頭函數中的`this`會指向外層的`this`。在例子中，就是指`render()`方法中的`this`。
+
+Question 2: 我們要如何把函數獨立出來，使之能更好維護？
+
+- 答案：不論是在`constructor()`中，或是在操作定義，建議用箭頭函數。因為箭頭函數中的`this`會指向外層的`this`。在例子中，就是指組件類別中的`this`。
+- 參考`src/components/Counter5.jsx`
+- 這樣的好處是，可以把函數獨立出來，使之能更好維護。
+- 建議寫在操作定義中，因為這樣可以讓`render()`方法更簡潔。且具有更好的可讀性、效能。
+- 如果非箭頭操作，則必須在外部用額外的箭頭函數包裹一層。(範例 2b)
+- 不建議在`render()`方法中定義箭頭函數，因為每次渲染都會產生新的函數，會影響效能。
+
+## 總結
+- 組件函數中的`this`指向：在 React 組件中，函數中的`this`指向是`undefined`。因此，如果要使用`this`，必須使用箭頭函數。因為箭頭函數中的`this`會指向外層的`this`。在例子中，就是指`render()`方法中的`this` (組件類別中的`this`)。
+- 為了把函數獨立出來，使之能更好維護，建議在操作定義中，使用箭頭操作。
+- 如果非箭頭操作，則必須在外部用額外的箭頭函數包裹一層。
+- 不建議在`render()`方法中定義箭頭函數，因為每次渲染都會產生新的函數，會影響效能。
