@@ -18,6 +18,7 @@ class Counter5 extends Component {
     }
 
     // Solution 1b: Define the arrow function in the constructor. But with simpler syntax.
+    // This is added at ES7.
     handleClickSolution1b = () => {
         this.setState({
             count: this.state.count + 1
