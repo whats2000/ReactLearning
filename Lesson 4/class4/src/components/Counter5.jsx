@@ -4,7 +4,7 @@ class Counter5 extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {count: 0};
+        // this.state = {count: 0}; Look at line 22. It is the same as this line in ES7.
 
         // Solution 1: Bind the function in the constructor.
         this.handleClickSolution1a = () => {
@@ -19,7 +19,7 @@ class Counter5 extends Component {
 
     // Remove the constructor function?
     // Yes, `this.state` can be also written as below in ES7.
-    // state = {count: 0};
+    state = {count: 0};
 
     // Solution 1b: Define the arrow function in the constructor. But with simpler syntax.
     // This is added at ES7.
