@@ -17,6 +17,10 @@ class Counter5 extends Component {
         this.handleClickSolution4 = this.handleClickSolution4.bind(this);
     }
 
+    // Remove the constructor function?
+    // Yes, `this.state` can be also written as below in ES7.
+    // state = {count: 0};
+
     // Solution 1b: Define the arrow function in the constructor. But with simpler syntax.
     // This is added at ES7.
     handleClickSolution1b = () => {
