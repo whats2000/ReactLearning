@@ -3,9 +3,13 @@ import {Button, Form} from 'react-bootstrap';
 
 function Item() {
     return (
-        <li className="d-flex align-items-center">
-            <Form.Check type="checkbox" label="Item 1"/>
-            <Button variant="danger" className="d-none">Remove</Button>
+        <li className="d-flex align-items-center justify-content-between m-1">
+            <Form.Check
+                type="checkbox"
+                label="Task 1"
+                className="ps-3"
+            />
+            <Button variant="danger" className="ms-auto">Remove</Button>
         </li>
     );
 }
