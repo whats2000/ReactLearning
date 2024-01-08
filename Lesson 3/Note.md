@@ -1,4 +1,5 @@
 # Class 1 — How to use the create-react-app
+- - -
 ## 1. 下載 create-react-app
 ```bash
 npm install -g create-react-app
@@ -72,6 +73,7 @@ yarn start
     - 因此，一般情況下**不建議**使用這個指令。
 
 # Class 2 — 項目結構
+- - -
 ## public 資料夾
 - 專門用來存放靜態資源，如圖片、字體、音樂等。
 - `index.html`：專案的主頁面。這是 **必要** 的。

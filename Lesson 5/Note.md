@@ -1,5 +1,5 @@
 # Class 1 Basic React Component Properties Usage
-
+- - -
 ## 1. React 組件 `props` 是甚麼
 
 - 目的是為了讓父組件可以傳遞資料給子組件所誕生的一個機制
@@ -89,7 +89,7 @@ function Child(props) {
     - **函數接收**：在函數組件中，`props` 作為函數的第一個參數傳遞，習慣上命名為 `props`，但也可以使用其他名稱。
 
 # Class 2 More about React Component Properties
-
+- - -
 - 這邊會介紹更多關於 React 組件屬性的知識。
 - AKA 公司面試易錯要點。
 
@@ -144,3 +144,92 @@ function Child(props) {
 1. **React 組件屬性的唯讀性**：React 組件的 `props` 是唯讀的，意味著子組件不能修改從父組件接收到的 `props` 值。但對於 `props` 中的複雜類型（如物件或陣列），子組件可以修改其內部屬性，儘管這並不是推薦的做法。
 2. **傳遞多種類型的值**：React 組件的 `props` 可以傳遞各種類型的值，包括基本數據類型、物件、陣列、函數、React 元素或組件。這包括傳遞組件原型或組件實例的 HTML 標籤，這些都通過 `props` 傳遞並在子組件中使用。
 3. **類別組件的 `constructor` 方法**：在 React 類別組件中，`constructor` 方法接收 `props` 作為參數，並且需要將這個 `props` 傳遞給 `super` 方法以在構造函數中正確使用 `this.props`。如果不這樣做，`this.props` 將是 `undefined`。
+
+# Class 3 React Component properties advanced usage
+- - -
+## 1. React 組件 props 屬性的批量傳遞
+- React 組件的屬性可以批量傳遞，這樣做的好處是可以減少代碼量。
+- 採用`{...props}`的方式，可以將`props`物件中的所有屬性傳遞給子組件。
+- React會將其轉成`key=value`的形式，並傳遞給子組件。
+- 參考`src/Class3/App.jsx`。
+
+```jsx
+class Parent extends React.Component {
+    state = {
+        name: 'Jack',
+        age: 18
+    }
+
+    render() {
+        return (
+            <div>
+                <Child {...this.state}/>
+            </div>
+        )
+    }
+}
+```
+
+## 2. React 組件 props 屬性的校驗 (props validation)
+- 當父組件傳遞給子組件的屬性值不符合要求時，可以通過校驗的方式來檢查。
+- 這樣做的好處是可以在開發階段就發現問題，而不是在運行階段才發現。
+- 校驗的方式是通過`propTypes`屬性來實現的。
+- 需使用`import PropTypes from 'prop-types'`來引入`PropTypes`。
+- 目的是寫公共組件時，可以通過校驗來檢查使用者是否傳遞了正確的屬性值。給予其他開發者使用時，區分是使用錯誤還是組件本身的問題。
+- 推薦寫在組件的外部，供其他開發者使用時，可以直接看到校驗的規則。
+- 更多用法參考: [https://zh-hant.reactjs.org/docs/typechecking-with-proptypes.html](https://zh-hant.reactjs.org/docs/typechecking-with-proptypes.html)
+- 參考`src/Class3/components/ArrayDisplay.jsx`。
+
+```jsx
+// 子組件
+class Child extends React.Component {
+    render() {
+        const {name, age} = this.props
+        return (
+            <div>
+                <p>姓名：{name}</p>
+                <p>年齡：{age}</p>
+            </div>
+        )
+    }
+}
+
+// 校驗
+Child.propTypes = {
+    name: PropTypes.string.isRequired,
+    age: PropTypes.number.isRequired
+}
+
+export default Child;
+```
+
+## 3. React 組件 props 屬性的預設值 (default props)
+- 可以通過`defaultProps`屬性來設置預設值。
+- 更多用法參考: [https://zh-hant.reactjs.org/docs/typechecking-with-proptypes.html#default-prop-values](https://zh-hant.reactjs.org/docs/typechecking-with-proptypes.html#default-prop-values)
+- 參考`src/Class3/components/ArrayDisplay.jsx`。
+
+```jsx
+// 子組件
+class Child extends React.Component {
+    render() {
+        const {name, age} = this.props
+        return (
+            <div>
+                <p>姓名：{name}</p>
+                <p>年齡：{age}</p>
+            </div>
+        )
+    }
+}
+
+// 預設值
+Child.defaultProps = {
+    name: 'John',
+    age: 20
+}
+```
+
+## 總結
+1. **屬性的批量傳遞**：可以使用 `{...props}` 的語法來批量傳遞 `props` 中的所有屬性給子組件，這有助於減少代碼量並提高代碼的可讀性。
+2. **屬性的校驗**：使用 `propTypes` 來校驗父組件傳遞給子組件的屬性值是否符合預期。這在開發階段有助於發現錯誤，並確保組件使用的一致性和可靠性。
+3. **設置預設屬性值**：通過 `defaultProps` 為組件的 `props` 定義預設值，這樣即使父組件沒有傳遞特定的 `props`，子組件也能有一個預設的行為或狀態。

@@ -1,5 +1,5 @@
 # Class 1 React Component Definition and Usage
-
+- - -
 ## 1. React 組件是什麼？
 
 React 組件主要分為兩種：
@@ -65,7 +65,7 @@ class WelcomeClass extends React.Component {
 - 不過，類別型組件，能更好理解 React 的工作原理，所以在學習階段，會先學習類別型組件。
 
 # Class 2 React Component Root and Other Components
-
+- - -
 ## 1. React 組件的根組件
 
 參考 `src/App.jsx`：
@@ -111,7 +111,7 @@ class WelcomeClass extends React.Component {
 - React 解析 JSX 會把大寫字母開頭的標籤，當成是 React 組件。小寫字母開頭的標籤，當成是 HTML 標籤。故 React 組件的標籤，一定要以大寫字母開頭。
 
 # Class 3 React Component State
-
+- - -
 ## 1. React 組件的狀態
 
 參考 `src/components/Counter.jsx`：
@@ -176,7 +176,7 @@ class ComponentName extends React.Component {
 - `this.setState()`方法傳遞是賦予新的值，更改值不建議使用`++`或`--`，因為可能會造成不可預期的結果。
 
 # Class 4a More About React Component State
-
+- - -
 - 這邊會介紹更多關於 React 組件狀態的知識。
 - AKA 公司面試題型。
 
@@ -314,7 +314,7 @@ class ComponentName extends React.Component {
   方法有兩個參數，如果都是函數，第一個會在更新狀態後，依序調用函數，並傳遞最新的狀態值。第二個會在更新狀態後，並重新渲染後，調用函數，並傳遞最新的狀態值。
 
 # Class 4b More About React Component `this`
-
+- - -
 ## 1. 組件函數中的`this`指向
 
 Question 1: 為何我們設置event handler時，要使用箭頭函數？
