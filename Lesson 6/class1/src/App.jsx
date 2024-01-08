@@ -5,7 +5,7 @@ import {Container} from "react-bootstrap";
 
 function App() {
     return (
-        <Container className="p-5 w-50 border mt-5">
+        <Container className="p-5 w-50 border mt-5 rounded-2">
             <Header/>
             <List/>
             <Footer/>
