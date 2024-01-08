@@ -1,5 +1,5 @@
 import {Container} from "react-bootstrap";
-import {useState} from "react";
+import {useCallback, useMemo, useState} from "react";
 
 import List from "./components/List";
 import Header from "./components/Header";
@@ -15,55 +15,46 @@ function App() {
         new Todo(2, "Learning React", false),
     ]);
 
-    /**
-     * Add a todo to the todos array
-     * @param {string} todoName - The name of the todo
-     */
-    const addTodo = todoName => {
-        setTodos([...todos, new Todo(
-            todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 0,
-            todoName,
-            false
-        )]);
-    };
+    // Callbacks for child components
+    const addTodo = useCallback((todoName) => {
+        setTodos(currentTodos => {
+            const newId = currentTodos.length > 0 ? Math.max(...currentTodos.map(todo => todo.id)) + 1 : 0;
+            return [...currentTodos, new Todo(newId, todoName, false)];
+        });
+    }, []);
 
-    /**
-     * Remove a todo from the todos array
-     * @param {int} id - The id of the todo to remove
-     */
-    const removeTodo = id => {
-        setTodos(todos.filter(todo => todo.id !== id));
-    };
 
-    /**
-     * Toggle the isDone property of a todo
-     * @param {int} id - The id of the todo to toggle
-     */
-    const toggleTodoDone = id => {
-        setTodos(todos.map(todo =>
-            todo.id === id ? {...todo, isDone: !todo.isDone} : todo
+    const toggleTodoDone = useCallback((id) => {
+        setTodos(currentTodos => currentTodos.map(todo =>
+            todo.id === id ? new Todo(todo.id, todo.todoName, !todo.isDone) : todo
         ));
-    };
+    }, []);
 
-    /**
-     * Remove all completed todos
-     */
-    const clearCompleted = () => {
-        setTodos(todos.filter(todo => !todo.isDone));
-    };
+    const removeTodo = useCallback((id) => {
+        setTodos(currentTodos => currentTodos.filter(todo => todo.id !== id));
+    }, []);
 
-    /**
-     * Toggle all todos to done except if all todos are done, then set all todos to not done
-     */
-    const toggleAllTodos = () => {
-        const areAllCompleted = todos.every(todo => todo.isDone);
-        setTodos(todos.map(todo => ({...todo, isDone: !areAllCompleted})));
-    };
+    const clearCompleted = useCallback(() => {
+        setTodos(currentTodos => currentTodos.filter(todo => !todo.isDone));
+    }, []);
 
 
-    // Calculations for the footer
-    const completedCount = todos.filter(todo => todo.isDone).length;
-    const totalCount = todos.length;
+    const toggleAllTodos = useCallback(() => {
+        setTodos(currentTodos => {
+            const areAllCompleted = currentTodos.every(todo => todo.isDone);
+            return currentTodos.map(todo => ({ ...todo, isDone: !areAllCompleted }));
+        });
+    }, []);
+
+
+    // Memoized values from state computed for child components
+    const completedCount = useMemo(() => {
+        return todos.filter(todo => todo.isDone).length;
+    }, [todos]);
+
+    const totalCount = useMemo(() => {
+        return todos.length;
+    }, [todos]);
 
     return (
         <Container className="p-5 w-50 border mt-5 rounded-2">

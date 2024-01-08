@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import {memo, useState} from 'react';
 import { FloatingLabel, Form } from 'react-bootstrap';
 
 function Header(props) {
+
     const { addTodo } = props;
     const [taskName, setTaskName] = useState('');
 
@@ -35,4 +36,4 @@ function Header(props) {
     );
 }
 
-export default Header;
+export default memo(Header);
