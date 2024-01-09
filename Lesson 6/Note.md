@@ -280,3 +280,68 @@ function App() {
 - 你學會了如何使用`useState`來管理狀態。
 - 你學會了如何使用`useMemo`和`useCallback`來優化性能。
 - 你學會了如何使用`React.memo`來記憶組件。
+
+# Class 2 React Local Storage
+
+- - -
+
+- 目前的待辦事項列表應用，如果你重新整理頁面，待辦事項就會消失。
+- 這是因為我們的數據是存在狀態中的，而狀態是不會保存在本地的。
+- 所以我們需要把數據保存在本地，這樣才能在重新整理頁面後，獲取到數據。
+
+## 1. 使用`localStorage`保存數據
+
+- `localStorage`是一個瀏覽器提供的 API，可以用來保存數據。
+
+## 2. 問題: 我們要在哪裡保存數據呢？ 在每個變更數據的函數中都保存數據嗎？
+
+- 這想法可行，但是會讓代碼變得很冗長，而且容易出錯。
+- 所以我們可以在`useEffect`中保存數據，這樣可以保證數據在每次渲染後都會被保存。
+
+## 3. 問題: `useEffect`是什麼？
+
+- `useEffect`是一個 React Hook，用於處理副作用。
+- 副作用是指那些不會改變組件狀態的操作，如網絡請求、設置計時器、手動操作 DOM 等。
+- `useEffect`接收一個函數作為參數，並在每次渲染後調用這個函數。
+- `useEffect`的第二個參數是一個數組，用於指定依賴的狀態或屬性，只有當這些狀態或屬性發生變化時，才會調用函數。
+
+## 4. 問題: 我們要怎麼使用`useEffect`來保存數據呢？
+
+- 我們可以在`useEffect`中使用`localStorage.setItem`來保存數據。
+- `localStorage.setItem`接收兩個參數，第一個參數是保存的名稱，第二個參數是保存的值。
+- 我們可以把待辦事項列表的數據轉換成 JSON 字符串，然後保存在本地。
+- 這樣我們就可以在重新整理頁面後，從本地獲取數據。
+
+    ```jsx
+    useEffect(() => {
+        localStorage.setItem('todos', JSON.stringify(todos));
+    }, [todos]);
+    ```
+
+## 5. 問題: 我們要怎麼從本地獲取數據呢？
+
+- 我們要更改`useState`的初始值，這樣就可以從本地獲取數據了。
+- `localStorage.getItem`接收一個參數，這個參數是保存的名稱。
+- 我們可以把獲取到的 JSON 字符串轉換成待辦事項列表的數據。
+- 這必須考慮如果本地沒有數據的情況，所以我們可以使用`||`運算符來處理這種情況，並把空陣列作為初始值。
+- 此外必須注意的是，`JSON.parse`可能會返回`null`，所以我們需要使用`?.`運算符來處理這種情況。
+- 這樣我們就可以在重新整理頁面後，從本地獲取數據了。
+
+    ```jsx
+    setTodos(
+        JSON.parse(localStorage.getItem('todos'))?.map((todo) => {
+            return {
+                id: todo.id,
+                text: todo.text,
+                isDone: todo.isDone,
+            };
+        }) || []
+    );
+    ```
+
+## 7. 類別組件中使用`localStorage`?
+
+- 類別組件中使用`localStorage`的方法和函數組件中使用`localStorage`的方法是一樣的。
+- 不過可以直接在`render`方法中使用`localStorage`保存，而不需要使用`useEffect`。
+- 初始化，你可以在`constructor`中獲取數據，並在`render`方法中保存數據。
+- 你也可以在`componentDidMount`生命週期方法中獲取數據，並在`componentDidUpdate`生命週期方法中保存數據。
