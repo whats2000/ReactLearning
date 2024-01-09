@@ -42,7 +42,7 @@ function App() {
     const toggleAllTodos = useCallback(() => {
         setTodos(currentTodos => {
             const areAllCompleted = currentTodos.every(todo => todo.isDone);
-            return currentTodos.map(todo => ({ ...todo, isDone: !areAllCompleted }));
+            return currentTodos.map(todo => ({...todo, isDone: !areAllCompleted}));
         });
     }, []);
 
@@ -60,12 +60,14 @@ function App() {
         <Container className="p-5 w-50 border mt-5 rounded-2">
             <Header addTodo={addTodo}/>
             <List todos={todos} toggleTodoDone={toggleTodoDone} removeTodo={removeTodo}/>
-            <Footer
-                completedCount={completedCount}
-                totalCount={totalCount}
-                clearCompleted={clearCompleted}
-                toggleAllTodos={toggleAllTodos}
-            />
+            {todos.length > 0 && (
+                <Footer
+                    completedCount={completedCount}
+                    totalCount={totalCount}
+                    clearCompleted={clearCompleted}
+                    toggleAllTodos={toggleAllTodos}
+                />
+            )}
         </Container>
     );
 }
