@@ -339,7 +339,7 @@ function App() {
     );
     ```
 
-## 7. 類別組件中使用`localStorage`?
+## 6. 類別組件中使用`localStorage`?
 
 - 類別組件中使用`localStorage`的方法和函數組件中使用`localStorage`的方法是一樣的。
 - 不過可以直接在`render`方法中使用`localStorage`保存，而不需要使用`useEffect`。
