@@ -43,7 +43,6 @@ class Item extends Component {
                 <Form.Check
                     type="checkbox"
                     label={isDone ? <DoneTask>{todoName}</DoneTask> : todoName}
-                    className="ps-3"
                     checked={isDone}
                     onChange={this.handleToggleDone}
                 />

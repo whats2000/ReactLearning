@@ -47,7 +47,6 @@ function Item(props) {
                         todoName
                     )
                 }
-                className="ps-3"
                 checked={isDone}
                 onChange={handleToggleDone}
             />
