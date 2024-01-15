@@ -281,7 +281,7 @@ function App() {
 - 你學會了如何使用`useMemo`和`useCallback`來優化性能。
 - 你學會了如何使用`React.memo`來記憶組件。
 
-# Class 2 React Local Storage
+# Project 2 React Local Storage
 
 - - -
 
@@ -345,3 +345,34 @@ function App() {
 - 不過可以直接在`render`方法中使用`localStorage`保存，而不需要使用`useEffect`。
 - 初始化，你可以在`constructor`中獲取數據，並在`render`方法中保存數據。
 - 你也可以在`componentDidMount`生命週期方法中獲取數據，並在`componentDidUpdate`生命週期方法中保存數據。
+
+# Project 3 React Exclusive Selection Editable List
+
+- - -
+
+## 1. 甚麼是排他式選擇？
+- 排他式選擇是指在一組選項中，只能選擇其中的一個選項。
+- 在這個按理是，我們只能選擇一個待辦事項，並且只能編輯一個待辦事項。
+- 當按別的待辦事項時，其他待辦事項就會取消選擇。
+
+## 2. 新增編輯功能按鈕
+- 我們可以在`Item`組件中添加一個編輯功能按鈕。
+- 改`varient`屬性就可以改變按鈕的樣式。
+- 然後調整`Remove`按鈕的樣式，讓它正確排版。
+
+## 3. 怎麼實現排他式選擇呢？
+- 這邊考慮到了一個問題，我們要在哪保存選擇的待辦事項的 id 呢？
+- 我們可以在`App`組件中定義一個狀態`editingId`，用於保存選擇的待辦事項的 id。
+- 當`App`狀態中的`editingId`和`Item`組件的 id 相同時，就表示這個待辦事項被選擇了。反之則沒有被選擇。
+- 興建一個函數`setEditingId`，用於設置`editingId`的值。並一路傳遞到`Item`組件中。
+- 利用傳遞自身`id`給`setEditingId`函數，來設置`editingId`的值。
+
+## 4. 怎麼實現取消
+- 我們可以在`Item`組件中添加一個取消按鈕。
+- 並且根據`editingId`是否等於當前待辦事項的 id 來決定是否顯示取消按鈕。同時影響編輯按鈕。
+- 利用傳遞自身`null`給`setEditingId`函數，來重置`editingId`的值。
+
+## 5. 怎麼實現保存編輯
+- 考慮我們變更的是`App`的狀態，所以我們可以在`App`組件中定義一個函數`updateTodo`，用於保存編輯。並一路傳遞到`Item`組件中。
+- 我們可以在`Item`的輸入框中添加一個`onChange`屬性，並把它設置為一個函數。追蹤輸入框的值。
+- 當按下`Enter`鍵時，就會觸發`submit`事件，我們新增個函數，把當前待辦事項的 id 和輸入框的值傳遞給`updateTodo`函數。
